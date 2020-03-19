@@ -19,7 +19,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * @ClassName SwaggerConfig
  * @Description Swagger2配置文件
  * @Author wangcc
- * @Date 9:49 2019/11/26
+ * @Date 2020年3月19日 14:48:26
  **/
 @EnableSwagger2
 @Configuration
@@ -43,11 +43,11 @@ public class SwaggerConfig {
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 // 设置页面标题
-                .title("小豆丁后端api接口文档")
+                .title("XXX后端api接口文档")
                 // 描述
-                .description("欢迎访问小豆丁后端api接口文档，这里是描述信息")
+                .description("欢迎访问XXX后端api接口文档，这里是描述信息")
                 // 设置联系人
-                .contact(new Contact("小豆丁", "http://127.0.0.1/swagger-ui.html", "247410779@qq.com"))
+                .contact(new Contact("Supercc", "http://127.0.0.1/swagger-ui.html", "247410779@qq.com"))
                 // 定义版本号
                 .version("1.0")
                 .build();
