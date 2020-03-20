@@ -1,8 +1,8 @@
 package ${package.Service};
-${package.Entity}
-.${entity};
-    ${superServiceClassPackage}
-        ;
+
+import ${package.Entity}.${entity};
+import ${superServiceClassPackage};
+import java.util.List;
 /**
  * <p>
  * $!{table.comment} 服务类
@@ -16,7 +16,7 @@ interface ${table.serviceName} : ${superServiceClass}<${entity}>
 #else
 public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
 
-        Msg findListByPage(Integer page,Integer limit,String field,String order,String searchname,Integer type);
+        Msg findListByPage(Integer page, Integer limit, String field, String order, String searchname, Integer type);
 
         Msg getById(String pkid);
 
@@ -25,5 +25,5 @@ public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
         Msg delete(List<String> ids);
 
         Msg update(${entity} ${table.entityPath});
-        }
+}
 #end
