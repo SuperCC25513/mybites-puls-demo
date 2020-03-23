@@ -3,10 +3,7 @@ package com.supercc.gernater.controller;
 import com.supercc.gernater.model.entity.User;
 import com.supercc.gernater.service.UserService;
 import com.supercc.gernater.utils.Msg;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -29,35 +26,26 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    /**
-     * 查询分页数据
-     */
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "page", value = "页码"),
-            @ApiImplicitParam(name = "limit", value = "每页条数"),
-            @ApiImplicitParam(name = "field", value = "排序的字段名"),
-            @ApiImplicitParam(name = "order", value = "asc or desc"),
-            @ApiImplicitParam(name = "searchRelation", value = "模糊搜索的关系,or or eq ,与searchname一一对应"),
-            @ApiImplicitParam(name = "searchname", value = "模糊搜索,k,v 的形式k为字段名，v为模糊搜索"),
-            @ApiImplicitParam(name = "Type", value = "筛选类型，k,v 的形式k为字段名，v为筛选的值"),
-            @ApiImplicitParam(name = "entityList", value = "传递entity的名字，校验传递的参数名，防止sql注入"),
-    })
-    @ApiOperation(value = "查询分页数据", httpMethod = "GET",
+
+    @ApiOperationSupport(params = @DynamicParameters(name = "objmap", properties = {
+            @DynamicParameter(name = "page", value = "页码", example = "1", required = true, dataTypeClass = Integer.class),
+            @DynamicParameter(name = "limit", value = "每页条数", example = "10", required = true, dataTypeClass = Integer.class),
+            @DynamicParameter(name = "field", value = "排序的字段名", example = "create_Time", dataTypeClass = String.class),
+            @DynamicParameter(name = "order", value = "asc or desc", example = "desc", dataTypeClass = String.class),
+            @DynamicParameter(name = "entityList", value = "实体类名", example = "['admin','user']", dataTypeClass = List.class),
+            @DynamicParameter(name = "searchRelation", value = "搜索多个条件", example = "['or','eq']", dataTypeClass = List.class),
+            @DynamicParameter(name = "searchname", value = "实体类名成+字段名称：字段值", example = "{'admin_id':1,'admin_name':'张三'}", dataTypeClass = String.class),
+            @DynamicParameter(name = "Type", value = "筛选类型 +字段名称：字段值", example = "{'admin_state':1}", dataTypeClass = String.class)
+    }))
+    @ApiOperation(value = "查询分页数据", httpMethod = "POST",
             notes = "searchRelation 与 searchname 一一对应 , 否则不生效\n" +
                     "字段名如下\n" +
                     "       uid   \n" + "       nickname  用户名 \n" + "       email  邮箱 \n" + "       phone  手机 \n" + "       status  状态 0：禁用 1：正常 \n" + "       createUid  创建者ID \n" + "       createTime  创建时间 \n" + "       updateTime  修改时间 \n" + "       loginName  登陆名 \n" + "       password  密码 \n" + "       ip  IP地址 \n")
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public Msg findListByPage(@RequestParam(name = "page", defaultValue = "1") Integer page,
-                              @RequestParam(name = "limit", defaultValue = "10") Integer limit,
-                              @RequestParam(name = "field", required = false) String field,
-                              @RequestParam(name = "order", required = false) String order,
-                              @RequestParam(name = "searchRelation", required = false) List<String> searchRelation,
-                              @RequestParam(name = "searchname", required = false) Map<String, Object> searchname,
-                              @RequestParam(name = "Type", required = false) Map<String, Object> Type,
-                              @RequestParam(name = "entityList", required = false) List<String> entityList) {
-        return userService.findListByPage(page, limit, field, order, searchRelation, searchname, Type);
-    }
 
+    @RequestMapping(value = "/list", method = RequestMethod.POST)
+    public Msg findListByPage(@RequestBody Map<String, Object> objmap) {
+        return userService.findListByPage((int) objmap.get("page"), (int) objmap.get("limit"), (String) objmap.get("field"), (String) objmap.get("order"), (List<String>) objmap.get("searchRelation"), (Map<String, Object>) objmap.get("searchname"), (Map<String, Object>) objmap.get("Type"));
+    }
 
     /**
      * 根据id查询
