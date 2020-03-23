@@ -8,7 +8,9 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -101,5 +103,10 @@ public class User implements Serializable {
     @TableField("ip")
     private String ip;
 
+    public List<String> getuserlist() {
+        List<String> list = new ArrayList<String>();
+        list.add(ip);
+        return list;
+    }
 
 }

@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import java.util.List;
 
 #foreach($pkg in ${table.importPackages})
 import ${pkg};
@@ -153,4 +154,12 @@ public String toString() {
         "}";
         }
 #end
+//用于校验字段的参数
+public List<String> get${table.entityPath}list(){
+        List<String> list=new ArrayList<String>();
+    #foreach($field in ${table.fields})
+            list.add("${field.name}");
+    #end
+        return list;
+        }
         }
