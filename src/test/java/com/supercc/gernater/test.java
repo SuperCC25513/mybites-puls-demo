@@ -3,6 +3,9 @@ package com.supercc.gernater;/**
  * @create
  */
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @ClassName test
  * @Author wangcc
@@ -10,5 +13,8 @@ package com.supercc.gernater;/**
  **/
 public class test {
 
-
+    public static void main(String[] args) {
+        List<String> a = new ArrayList<>();
+        System.out.println(a.isEmpty());
+    }
 }

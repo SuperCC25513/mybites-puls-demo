@@ -17,7 +17,7 @@ import java.util.Date;
  * </p>
  *
  * @author wcc
- * @since 2020-03-18
+ * @since 2020-03-23
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -43,21 +43,21 @@ public class User implements Serializable {
      */
     @ApiModelProperty(value = "邮箱")
     @TableField("email")
-    private String email;
+        private String email;
 
     /**
      * 手机
      */
     @ApiModelProperty(value = "手机")
     @TableField("phone")
-    private String phone;
+        private String phone;
 
     /**
      * 状态 0：禁用 1：正常
      */
     @ApiModelProperty(value = "状态 0：禁用 1：正常")
     @TableField("status")
-    private Integer status;
+        private Integer status;
 
     /**
      * 创建者ID
@@ -87,12 +87,12 @@ public class User implements Serializable {
     @TableField("login_name")
     private String loginName;
 
-    /**
-     * 密码
-     */
-    @ApiModelProperty(value = "密码")
-    @TableField("password")
-    private String password;
+        /**
+         * 密码
+         */
+        @ApiModelProperty(value = "密码")
+        @TableField("password")
+        private String password;
 
     /**
      * IP地址

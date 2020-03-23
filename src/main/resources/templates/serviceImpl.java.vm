@@ -1,18 +1,15 @@
-package ${package.ServiceImpl};
-import lombok.extern.slf4j.Slf4j;
+package ${package.ServiceImpl}import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-import ${package.Entity}.${entity};
-import ${package.Mapper}.${table.mapperName};
-import ${package.Service}.${table.serviceName};
-import ${superServiceImplClassPackage};
-import org.springframework.util.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.List;
+;
+${package.Entity}
+        .${entity};
+${package.Mapper}
+        .${table.mapperName};
+${package.Service}
+        .${table.serviceName};
+${superServiceImplClassPackage}
+        ;
 /**
  * <p>
  * $!{table.comment} 服务实现类
@@ -33,7 +30,7 @@ open class ${table.serviceImplName} : ${superServiceImplClass}<${table.mapperNam
         private  ${table.mapperName} ${table.entityPath}Dao;
 
         @Override
-        public Msg findListByPage(Integer page,Integer limit,String field,String order,String searchname,Integer type){
+        public Msg findListByPage(Integer page,Integer limit,String field,String order,List<String>searchRelation,Map<String,Object>searchname,Map<String,Object>type){
         Msg msg=new Msg();
         try{
         PageHelper.startPage(page,limit);
@@ -45,13 +42,23 @@ open class ${table.serviceImplName} : ${superServiceImplClass}<${table.mapperNam
         queryWrapper.orderBy(true,true,field);
         }
         }
-        if(!StringUtils.isEmpty(searchname)){
-        //更换成业务需要的模糊搜索
-        queryWrapper.like("id","%"+searchname+"%");
+        //业务需要的模糊搜索
+        if(searchRelation.size()>0&&!searchRelation.isEmpty()&&!searchname.isEmpty()&&searchname.size()>0&&searchRelation.size()==searchname.size()){
+        for(int i=0;i<searchRelation.size();i++){
+        if("or".equals(searchRelation.get(i))){
+        queryWrapper.or();
         }
-        if(type!=null){
-        //更换成业务需要的类型搜索
-        queryWrapper.eq("id",type);
+        for(Map.Entry<String,Object>search:searchname.entrySet()){
+        queryWrapper.like(search.getKey(),"%"+search.getValue()+"%");
+        }
+        }
+
+        }
+        if(type.isEmpty()&&type.size()>0){
+        //业务需要的类型搜索
+        for(Map.Entry<String,Object>TypeSearch:type.entrySet()){
+        queryWrapper.eq(TypeSearch.getKey(),TypeSearch.getValue());
+        }
         }
         //      业务代码start
 

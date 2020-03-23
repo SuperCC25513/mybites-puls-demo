@@ -2,6 +2,7 @@ package com.supercc.gernater.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.supercc.gernater.model.entity.User;
+import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -10,8 +11,8 @@ import org.springframework.stereotype.Repository;
  * </p>
  *
  * @author wcc
- * @since 2020-03-18
  */
+@Mapper
 @Repository
 public interface UserDao extends BaseMapper<User> {
 

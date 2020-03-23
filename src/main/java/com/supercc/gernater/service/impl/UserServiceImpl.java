@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
-
+import java.util.Map;
 /**
  * <p>
  * 系统用户表 服务实现类
@@ -31,7 +31,7 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements UserS
     private UserDao userDao;
 
     @Override
-    public Msg findListByPage(Integer page, Integer limit, String field, String order, String searchname, Integer type) {
+    public Msg findListByPage(Integer page, Integer limit, String field, String order, List<String> searchRelation, Map<String, Object> searchname, Map<String, Object> type) {
         Msg msg = new Msg();
         try {
             PageHelper.startPage(page, limit);
@@ -43,13 +43,23 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements UserS
                     queryWrapper.orderBy(true, true, field);
                 }
             }
-            if (!StringUtils.isEmpty(searchname)) {
-                //更换成业务需要的模糊搜索
-                queryWrapper.like("id", "%" + searchname + "%");
+            //业务需要的模糊搜索
+            if (searchRelation.size() > 0 && !searchRelation.isEmpty() && !searchname.isEmpty() && searchname.size() > 0 && searchRelation.size() == searchname.size()) {
+                for (int i = 0; i < searchRelation.size(); i++) {
+                    if ("or".equals(searchRelation.get(i))) {
+                        queryWrapper.or();
+                    }
+                    for (Map.Entry<String, Object> search : searchname.entrySet()) {
+                        queryWrapper.like(search.getKey(), "%" + search.getValue() + "%");
+                    }
+                }
+
             }
-            if (type != null) {
-                //更换成业务需要的类型搜索
-                queryWrapper.eq("id", type);
+            if (type.isEmpty() && type.size() > 0) {
+                //业务需要的类型搜索
+                for (Map.Entry<String, Object> TypeSearch : type.entrySet()) {
+                    queryWrapper.eq(TypeSearch.getKey(), TypeSearch.getValue());
+                }
             }
             //      业务代码start
 
@@ -116,7 +126,6 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements UserS
             msg.setCode(Code.error);
             msg.setMsg(Code.errorMsg);
         }
-
         return msg;
     }
 
@@ -165,4 +174,5 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements UserS
         }
         return msg;
     }
+
 }
