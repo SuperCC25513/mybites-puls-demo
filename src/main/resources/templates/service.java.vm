@@ -1,8 +1,9 @@
 package ${package.Service};
-${package.Entity}
-.${entity};
-    ${superServiceClassPackage}
-        ;
+
+import ${package.Entity}.${entity};
+import ${superServiceClassPackage};
+import java.util.List;
+import java.util.Map;
 /**
  * <p>
  * $!{table.comment} 服务类
