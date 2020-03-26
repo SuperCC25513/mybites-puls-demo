@@ -104,7 +104,8 @@ public class MpGernater {
         tableFillList.add(new TableFill("update_Time", FieldFill.INSERT_UPDATE));
         tableFillList.add(new TableFill("modify_Time", FieldFill.INSERT_UPDATE));
         strategyConfig.setCapitalMode(true)
-                .setNaming(NamingStrategy.underline_to_camel)
+                //驼峰命名
+                .setNaming(NamingStrategy.nochange)
                 .setTablePrefix(tableFperFix)
                 .setInclude(tables)
                 .setTableFillList(tableFillList)

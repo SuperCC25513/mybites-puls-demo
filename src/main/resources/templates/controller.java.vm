@@ -50,7 +50,7 @@ private ${table.serviceName} ${table.entityPath}Service;
         @DynamicParameter(name = "field", value = "排序的字段名", example = "create_Time", dataTypeClass = String.class),
         @DynamicParameter(name = "order", value = "asc or desc", example = "desc", dataTypeClass = String.class),
         @DynamicParameter(name = "entityList", value = "实体类名", example = "['admin','user']", dataTypeClass = List.class),
-        @DynamicParameter(name = "searchRelation", value = "搜索多个条件", example = "['or','eq']", dataTypeClass = List.class),
+        @DynamicParameter(name = "searchRelation", value = "搜索多个条件", example = "['eq','or']", dataTypeClass = List.class),
         @DynamicParameter(name = "searchname", value = "实体类名成+字段名称：字段值", example = "{'admin_id':1,'admin_name':'张三'}", dataTypeClass = String.class),
         @DynamicParameter(name = "Type", value = "筛选类型 +字段名称：字段值", example = "{'admin_state':1}", dataTypeClass = String.class)
 }))
