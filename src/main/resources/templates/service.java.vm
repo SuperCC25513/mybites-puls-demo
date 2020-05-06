@@ -19,6 +19,8 @@ public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
 
         Msg findListByPage(Integer page,Integer limit,String field,String order,List<String> searchRelation,Map<String, Object> searchname,Map<String, Object> type);
 
+        Msg SelectList(Integer page, Integer limit, String field, String order, String searchname, Integer type);
+
         Msg getById(String pkid);
 
         Msg add(${entity} ${table.entityPath});

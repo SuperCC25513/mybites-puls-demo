@@ -4,9 +4,10 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Arrays;
 
 #foreach($pkg in ${table.importPackages})
 import ${pkg};
@@ -155,14 +156,10 @@ public String toString() {
         "}";
         }
 #end
-        /**
-       * 用于校验字段的参数
-       */
-        public List<String> getTableFieldList(){
-        List<String> list=new ArrayList<String>();
-         #foreach($field in ${table.fields})
-            list.add("${field.name}");
-        #end
-        return list;
-        }
+/**
+* 用于校验字段的参数
+*/
+@TableField(exist = false)
+@JsonIgnore
+public List<String> getTableFieldList = Arrays.asList(#foreach($field in ${table.fields})#if($!{foreach.index}==0)"${field.name}"#else,"${field.name}"#end #end);
 }

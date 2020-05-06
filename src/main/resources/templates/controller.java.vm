@@ -25,6 +25,8 @@ import java.util.Map;
  * @author ${author}
  */
 @Api(tags = {"${table.comment}"}, produces = "${table.comment}相关接口")
+@ApiIgnore
+@AllArgsConstructor
 #if(${restControllerStyle})
 @RestController
 #else
@@ -67,6 +69,23 @@ public Msg findListByPage(@RequestBody Map<String, Object> objmap){
         }
 
 
+@ApiOperation(value = "查看${table.comment}列表", httpMethod = "GET",
+        notes = "模糊搜索 客户名称，手机号，筛选条件为禁用", protocols = "http")
+@ApiImplicitParams({
+        @ApiImplicitParam(name = "searchname", value = "模糊搜索：客户名称，手机号"),
+        @ApiImplicitParam(name = "Type", value = "筛选：是否禁用")})
+
+@RequestMapping(value = "/SelectList", method = RequestMethod.POST)
+public Msg SelectList(@RequestParam(name = "page", defaultValue = "1") Integer page,
+@RequestParam(name = "limit", defaultValue = "10") Integer limit,
+@RequestParam(name = "field", required = false) String field,
+@RequestParam(name = "order", required = false) String order,
+@RequestParam(name = "searchname", required = false) String searchname,
+@RequestParam(name = "Type", required = false) Integer Type
+        ) {
+        Msg msg = ${table.entityPath}Service.SelectList(page, limit, field, order, searchname, Type);
+        return msg;
+        }
 /**
  * 根据id查询
  */
